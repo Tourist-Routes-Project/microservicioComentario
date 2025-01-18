@@ -1,7 +1,7 @@
 package com.project.comment.persistance.models;
 
 
-import java.util.Date;
+import java.sql.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +28,6 @@ public class Comment {
 	
 	@Column(name="id_route", nullable = false)
 	private int routeId;
-	
 	
 	@Column(name="description")
 	private String description;
