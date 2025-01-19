@@ -3,7 +3,9 @@ package com.project.comment.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +27,11 @@ public class CommentController {
 	@PostMapping("/comment")
 	public ResponseEntity<Response<Comment>> addCommnet (@Valid @RequestBody Comment comment){
 		return commentService.addComment(comment);
+	}
+	
+	@PutMapping("/comment/{id}")
+	public ResponseEntity<Response<Comment>> updateCommnet (@PathVariable int id, @RequestBody Comment updateComment){
+		return commentService.updateComment(id, updateComment);
 	}
 
 }

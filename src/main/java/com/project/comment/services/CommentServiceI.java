@@ -9,5 +9,8 @@ public interface CommentServiceI {
 	
 	//Método para agregar un comentario, devolviendo un ResponseEntity
 	ResponseEntity<Response<Comment>> addComment (Comment comment);
+	
+	//Método para editar un comentario, devolviendo un ResponseEntity
+	ResponseEntity<Response<Comment>> updateComment(int id, Comment updateComment);
 
 }
