@@ -74,4 +74,30 @@ public class CommentServiceImpl implements CommentServiceI{
 	    }
 	}
 
+	@Override
+	public ResponseEntity<Response<Comment>> deleteComment(int id) {
+		
+
+		Optional<Comment> optionalComment = commentRepository.findByCommentId(id);
+		
+		if(!optionalComment.isPresent()) {
+			throw new ExceptionNotFoundComment("Comment not found");
+		}
+		
+		Comment deleteComment = optionalComment.get();
+		
+		try {
+			//Se llama al repositorio para proceder a eliminar el comentario
+			commentRepository.delete(deleteComment);		
+			//Se almacena una respuesta estructurada de la clase Reponse.
+			Response<Comment> response = new Response<>(HttpStatus.OK, "Comment delete correctly");
+			// Se devuelve una respuesta indicando que se ha eliminado
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+			
+		}catch (Exception e) {
+			// Manejar excepciones
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>(HttpStatus.INTERNAL_SERVER_ERROR, "An error occurred: " + e.getMessage()));
+	    }
+	}
+
 }

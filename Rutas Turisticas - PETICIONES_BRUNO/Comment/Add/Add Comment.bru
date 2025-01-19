@@ -1,0 +1,17 @@
+meta {
+  name: Add Comment
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/v1/comment
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "description": "Me ha encantado la ruta, la recomiendo 100%, los lugares eran preciosos y las audioguia eran claras y se ajustaban perfectamente al tiempo de ruta"
+  }
+}

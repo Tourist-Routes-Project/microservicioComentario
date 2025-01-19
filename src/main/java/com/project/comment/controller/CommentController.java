@@ -3,6 +3,7 @@ package com.project.comment.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +33,11 @@ public class CommentController {
 	@PutMapping("/comment/{id}")
 	public ResponseEntity<Response<Comment>> updateCommnet (@PathVariable int id, @RequestBody Comment updateComment){
 		return commentService.updateComment(id, updateComment);
+	}
+	
+	@DeleteMapping("/comment/{id}")
+	public ResponseEntity<Response<Comment>> deleteComment (@PathVariable int id){
+		return commentService.deleteComment(id);
 	}
 
 }

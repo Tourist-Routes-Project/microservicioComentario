@@ -12,5 +12,8 @@ public interface CommentServiceI {
 	
 	//Método para editar un comentario, devolviendo un ResponseEntity
 	ResponseEntity<Response<Comment>> updateComment(int id, Comment updateComment);
+	
+	//Método para elimninar un comentario, devolviendo un ResponseEntity
+	ResponseEntity<Response<Comment>> deleteComment (int id);
 
 }
