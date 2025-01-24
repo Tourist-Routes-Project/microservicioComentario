@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.project.comment.exceptions.ExceptionInvalidCommentData;
 import com.project.comment.exceptions.ExceptionNotFoundComment;
+import com.project.comment.exceptions.ExceptionNotFoundRoute;
 import com.project.comment.persistance.models.Comment;
 import com.project.comment.persistance.models.Response;
 import com.project.comment.persistance.repository.CommentRepository;
@@ -18,6 +20,20 @@ public class CommentServiceImpl implements CommentServiceI{
 	
 	@Autowired
 	private CommentRepository commentRepository;
+	
+	@Autowired
+    private RestTemplate restTemplate;
+	
+	private static final String ROUTE_SERVICE = "http://ROUTECHECKPOINT/api/v1/routes/id";
+	
+	private boolean isValidRoute(int routeId) {
+		try {
+			ResponseEntity<Void> response = restTemplate.getForEntity(ROUTE_SERVICE + "/" + routeId, Void.class);
+            return response.getStatusCode() == HttpStatus.OK;
+		}catch (Exception e) {
+			return false;
+		}
+	}
 
 	@Override
 	public ResponseEntity<Response<Comment>> addComment(Comment comment) {
@@ -26,9 +42,12 @@ public class CommentServiceImpl implements CommentServiceI{
 			throw new ExceptionInvalidCommentData("The description cannot be null");
 		}
 		
+		if (!isValidRoute(comment.getRouteId())) {
+            throw new ExceptionNotFoundRoute("Route does not exist.");
+        }
+		
 		try {	
 			comment.setUserId(1); //De forma provisional asignamos el id al unico user
-			comment.setRouteId(4); //De forman provisional asignamos el id a una de las varias rutas creadas
 			comment.setCreatedDate(new java.sql.Date(System.currentTimeMillis()));
 			commentRepository.save(comment);
 			
